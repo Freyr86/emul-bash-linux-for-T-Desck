@@ -57,8 +57,12 @@ while work:
         cmd.mkdir(cmd_text)
 
     #verifier la batterie
+    elif "voltage" in cmd_text:
+        print(cmd.voltage())
+
+    #verification du % batterie
     elif "batt" in cmd_text:
-        cmd.batt()
+        print(cmd.batt_charge())
 
     #sortie de la console
     elif "exit" in cmd_text:

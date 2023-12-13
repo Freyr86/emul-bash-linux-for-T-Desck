@@ -10,3 +10,6 @@
 /num.py
 /module/dessin.py
 /module/draw_logo.py
+/boot_out.txt
+/.gitignore
+/settings.toml

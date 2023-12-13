@@ -3,6 +3,8 @@ import sys
 import builtins
 import storage
 import module
+import board
+from analogio import AnalogIn
 
 def cls():
     for loop in range(0,20):
@@ -44,12 +46,6 @@ def ls(chemin):
     #gestion des exception
     except Exception as err:
         print("*ERREUR* Exeception:",str(err))
-
-def batt():
-    #print batterry voltage
-    None
-
-
 
 def rmdir(chemin):
     #recupération du chemin
@@ -107,3 +103,41 @@ def mkdir(chemin):
     except Exception as err:
         print("*ERREUR* Exeception:",str(err))
 
+def voltage():
+    #retourne voltage batterie
+    #attache pin
+    #CALIBRATION NESSECAIRE
+
+    batt_in = AnalogIn(board.IO4)
+
+    #changement de la référence
+    print(batt_in.reference_voltage)
+
+    #calcul voltage
+    voltage = batt_in.value * 3.3 / 65536
+
+    #relachement pin
+    batt_in.deinit()
+
+    #retourne le voltage
+    return voltage
+
+def batt_charge():
+    #4.2V < x = 100%  
+    #3.3V > x = 0%
+    #CALIBRATION NESSECAIRE
+    
+    max = 4.2
+    min = 3.3
+
+    #attache pin
+    batt_in = AnalogIn(board.IO4)
+
+    #calcul charge
+    charge = 100 / (max - min) * (batt_in.value * 3.3 / 65536 - min) 
+
+    #relachement pin
+    batt_in.deinit()
+
+    #retourne la charge en %
+    return charge
